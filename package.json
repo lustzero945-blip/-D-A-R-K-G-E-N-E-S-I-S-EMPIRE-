@@ -13,6 +13,8 @@
     "@whiskeysockets/baileys": "7.0.0-rc.9",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
     "lucide-react": "^0.460.0",
     "next": "^15.0.0",
     "pino": "^10.3.1",
