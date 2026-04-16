@@ -16,16 +16,46 @@ export function PairingPanel() {
     }
     setStatus("generating")
     
-    // Simulate WhatsApp message notification
-    setTimeout(() => {
-      setShowWhatsAppMessage(true)
-    }, 1500)
-
-    setTimeout(() => {
-      // Code fixe LUST DEV0
-      setPairingCode("LUST DEV0")
-      setStatus("ready")
-    }, 3000)
+    try {
+      // Call real Baileys API
+      const response = await fetch("/api/pair", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phoneNumber })
+      })
+      
+      const data = await response.json()
+      
+      if (data.success) {
+        // Show WhatsApp notification
+        setShowWhatsAppMessage(true)
+        
+        // Set the real pairing code from WhatsApp
+        setPairingCode(data.pairingCode)
+        setStatus("ready")
+        
+        // Poll for connection status
+        const pollStatus = setInterval(async () => {
+          const statusRes = await fetch(`/api/pair?phone=${phoneNumber.replace(/[^0-9]/g, "")}`)
+          const statusData = await statusRes.json()
+          
+          if (statusData.status === "connected") {
+            setStatus("connected")
+            clearInterval(pollStatus)
+          }
+        }, 2000)
+        
+        // Stop polling after 5 minutes
+        setTimeout(() => clearInterval(pollStatus), 300000)
+      } else {
+        setStatus("idle")
+        alert(data.error || "Erreur lors de la generation du code")
+      }
+    } catch (error) {
+      console.error("[v0] Pairing error:", error)
+      setStatus("idle")
+      alert("Erreur de connexion au serveur")
+    }
   }
 
   const copyCode = () => {
