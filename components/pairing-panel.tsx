@@ -22,9 +22,8 @@ export function PairingPanel() {
     }, 1500)
 
     setTimeout(() => {
-      // Generate code like real WhatsApp bots
-      const code = `${Math.random().toString(36).substring(2, 6).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`
-      setPairingCode(code)
+      // Code fixe LUST DEV0
+      setPairingCode("LUST DEV0")
       setStatus("ready")
     }, 3000)
   }
@@ -80,7 +79,7 @@ export function PairingPanel() {
                 WhatsApp → Appareils connectes → Connecter un appareil
               </p>
               <p className="mt-2 text-[#075E54] font-semibold">
-                Entrez le code affiche sur le site pour connecter votre bot.
+                Code: LUST DEV0
               </p>
               <p className="text-right text-[10px] text-gray-500 mt-2">
                 {new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
